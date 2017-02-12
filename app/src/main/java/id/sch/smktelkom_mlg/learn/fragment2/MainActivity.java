@@ -7,9 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View2Fragment.IListener {
     private int mNo;
     private TextView tvNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,24 +31,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSelector() {
         tvNumber = (TextView) findViewById(R.id.textViewNumber);
-        findViewById(R.id.buttonPrev)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mNo > 1) {
-                            changePage(--mNo);
-                        }
-                    }
-                });
-        findViewById(R.id.buttonNext)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mNo < 3) {
-                            changePage(++mNo);
-                        }
-                    }
-                });
+        findViewById(R.id.buttonPrev).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNo > 1) {
+                    changePage(--mNo);
+                }
+            }
+        });
+
+        findViewById(R.id.buttonNext).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNo < 4) {
+                    changePage(++mNo);
+                }
+            }
+        });
     }
 
     private void changeFragment(int no) {
@@ -66,7 +66,18 @@ public class MainActivity extends AppCompatActivity {
                 fragment = View1Fragment.newInstance(
                         R.drawable.ic_wb_cloudy_black_24dp, "Awan");
                 break;
+            case 4:
+                fragment = new View2Fragment();
+                break;
+            case 5:
+                fragment = new View3Fragment();
+                break;
         }
         fm.beginTransaction().replace(R.id.container, fragment).commitNow();
+    }
+
+    @Override
+    public void toPromoPage() {
+        changeFragment(5);
     }
 }
